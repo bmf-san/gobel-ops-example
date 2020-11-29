@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose/docker-compose.yml
+    kompose.version: 1.22.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: gobel-api
+  name: gobel-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: gobel-api
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose/docker-compose.yml
+        kompose.version: 1.22.0 (HEAD)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/gobel_link: "true"
+        io.kompose.service: gobel-api
+    spec:
+      containers:
+        - env:
+            - name: ALLOW_ORIGIN
+              value: '*'
+            - name: DB_DATABASE
+              value: gobel
+            - name: DB_DRIVER
+              value: mysql
+            - name: DB_HOST
+              value: gobel-mysql
+            - name: DB_PASSWORD
+              value: password
+            - name: DB_PORT
+              value: "3306"
+            - name: DB_USER
+              value: root
+            - name: LOG_THRESHOLD
+              value: "1"
+            - name: LOG_TIME_ZONE_OFFSET
+              value: "32400"
+            - name: MYSQL_DATABASE
+              value: gobel
+            - name: MYSQL_ROOT_PASSWORD
+              value: password
+            - name: REDIS_HOST
+              value: redis
+            - name: REDIS_PASSWORD
+              value: password
+            - name: REDIS_PORT
+              value: "6379"
+            - name: SERVER_PORT
+              value: "82"
+            - name: TIME_ZONE
+              value: Asia/Tokyo
+          image: gobel-api
+          name: gobel-api
+          ports:
+            - containerPort: 82
+          resources: {}
+      restartPolicy: Always
+status: {}

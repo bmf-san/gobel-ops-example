@@ -1,0 +1,12 @@
+---
+- hosts: master
+  tags: ['init']
+  roles:
+    - users
+    - ssh
+    - iptables
+    - apt
+    - docker
+    - kubeadm
+  user: root
+  gather_facts: true

@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose/docker-compose.yml
+    kompose.version: 1.22.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: gobel-api
+  name: gobel-api
+spec:
+  ports:
+    - name: "82"
+      port: 82
+      targetPort: 82
+  selector:
+    io.kompose.service: gobel-api
+status:
+  loadBalancer: {}

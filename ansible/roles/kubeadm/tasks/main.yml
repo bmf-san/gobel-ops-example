@@ -1,0 +1,65 @@
+---
+
+- name: Add GPG key for kubeadm
+  apt_key:
+    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+  become: yes
+
+- name: Add apt repository for kubeadm
+  apt_repository:
+    repo: "deb http://apt.kubernetes.io/ kubernetes-xenial main"
+  become: yes
+
+- name: apt install kubeadm, kubelet and kubectl
+  apt:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - kubeadm
+      - kubelet
+      - kubectl
+
+- name: Disable swapoff
+  shell: swapoff -a
+
+- name: Disable swapoff permanently
+  replace:
+    path: /etc/fstab
+    regexp: '^(\s*)([^#\n]+\s+)(\w+\s+)swap(\s+.*)$'
+    replace: '#\1\2\3swap\4'
+    backup: yes
+
+- name: Init kubernetes cluster
+  become: yes
+  shell: |
+    kubeadm init --node-name master --pod-network-cidr=10.244.0.0/16
+
+- name: Create kubernetes config directory
+  file:
+    path: "~{{ new_user_name }}/.kube/"
+    state: directory
+
+- name: Copy admin.conf to home directory
+  copy:
+    src: "/etc/kubernetes/admin.conf" 
+    dest: "~{{ new_user_name }}/.kube/config"
+    owner: "{{ new_user_name }}"
+    group: "{{ new_user_name }}"
+    mode: 0755
+    remote_src: true
+
+- name: Update kernel settings for installing flannel
+  become: yes
+  sysctl:
+    name: net.bridge.bridge-nf-call-iptables
+    value: '1'
+    sysctl_set: yes
+    state: present
+    reload: yes
+
+- name: Install flannel
+  become: yes
+  become_user: "{{ new_user_name }}"
+  shell: |
+    kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml

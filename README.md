@@ -78,7 +78,7 @@ make init-provision
 // TODO: k8s deployment
 
 # Reference
-- [chidakiyo.hatenablog.com - Kubernetes NodePort vs LoadBalancer vs Ingress? When should I use what? (Kubernetes NodePort と LoadBalancer と Ingress のどれを使うべきか) を訳した](https://chidakiyo.hatenablog.com/entry/2018/09/10/Kubernetes_NodePort_vs_LoadBalancer_vs_Ingress%3F_When_should_I_use_what%3F_(Kubernetes_NodePort_%E3%81%A8_LoadBalancer_%E3%81%A8_Ingress_%E3%81%AE%E3%81%A9%E3%82%8C%E3%82%92%E4%BD%BF%E3%81%86)
+- [chidakiyo.hatenablog.com - Kubernetes NodePort vs LoadBalancer vs Ingress? When should I use what? \(Kubernetes NodePort と LoadBalancer と Ingress のどれを使うべきか\) を訳した](https://chidakiyo.hatenablog.com/entry/2018/09/10/Kubernetes_NodePort_vs_LoadBalancer_vs_Ingress%3F_When_should_I_use_what%3F_\(Kubernetes_NodePort_%E3%81%A8_LoadBalancer_%E3%81%A8_Ingress_%E3%81%AE%E3%81%A9%E3%82%8C%E3%82%92%E4%BD%BF%E3%81%86)
 - [medium.com - On-premises Kubernetes pitfalls](https://medium.com/makotows-blog/on-premise-kubernetes-pitfalls-2aa49e1a4c2c)
 - [metallb](https://metallb.universe.tf/)
 - [MetalLB入門 ― オンプレKubernetesクラスタでLoadBalancerタイプのServiceを使う](https://www.kaitoy.xyz/2020/10/31/metallb/)

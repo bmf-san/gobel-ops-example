@@ -104,6 +104,7 @@ make init-provision
 - [github.com - r0b2g1t/terraform-openstack-ansible](https://github.com/r0b2g1t/terraform-openstack-ansible)
 - [github.com - dan4ex/Terraform](https://github.com/dan4ex/Terraform)
 - [github.com - kubernetes-digitalocean-terraform/kubernetes-digitalocean-terraform](https://github.com/kubernetes-digitalocean-terraform/kubernetes-digitalocean-terraform)
+- [github.com - leocavalcante/up-n-running-k8s](https://github.com/leocavalcante/up-n-running-k8s)
 
 # License
 This project is licensed under the terms of the MIT license.

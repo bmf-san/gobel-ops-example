@@ -78,6 +78,10 @@ make init-provision
 // TODO: k8s deployment
 
 # Reference
+- [nnstt1.hatenablog.com - 自宅 k8s クラスタのサービスに FQDN で繋がるようにした](https://nnstt1.hatenablog.com/entry/2020/11/13/070000)
+- [MetalLB入門 ― オンプレKubernetesクラスタでLoadBalancerタイプのServiceを使う](https://www.kaitoy.xyz/2020/10/31/metallb/#:~:text=MetalLB%E3%81%AF%E3%80%81%E3%81%82%E3%82%89%E3%81%8B%E3%81%98%E3%82%81%E6%8C%87%E5%AE%9A%E3%81%95%E3%82%8C,%E3%81%AE%E6%A9%9F%E5%99%A8%E3%81%AB%E5%91%A8%E7%9F%A5%E3%81%99%E3%82%8B%E3%80%82&text=MetalLB%E3%81%8CARP(IPv4)%E3%81%A8,%E3%82%92%E8%A7%A3%E6%B1%BA%E3%81%97%E3%81%A6%E3%81%8F%E3%82%8C%E3%82%8B%E3%80%82)
+- [ameblo.jp - 若手エンジニアのブログ](https://ameblo.jp/bakery-diary/entry-12614040050.html)
+- [月10ドルで海外VPSでKubernetesを試してみる（kubernetes v1.9版）](https://inajob.hatenablog.jp/entry/2018/02/28/%E6%9C%8810%E3%83%89%E3%83%AB%E3%81%A7%E6%B5%B7%E5%A4%96VPS%E3%81%A7Kubernetes%E3%82%92%E8%A9%A6%E3%81%97%E3%81%A6%E3%81%BF%E3%82%8B%EF%BC%88kubernetes_v1.9%E7%89%88%EF%BC%89)
 - [chidakiyo.hatenablog.com - Kubernetes NodePort vs LoadBalancer vs Ingress? When should I use what? \(Kubernetes NodePort と LoadBalancer と Ingress のどれを使うべきか\) を訳した](https://chidakiyo.hatenablog.com/entry/2018/09/10/Kubernetes_NodePort_vs_LoadBalancer_vs_Ingress%3F_When_should_I_use_what%3F_\(Kubernetes_NodePort_%E3%81%A8_LoadBalancer_%E3%81%A8_Ingress_%E3%81%AE%E3%81%A9%E3%82%8C%E3%82%92%E4%BD%BF%E3%81%86)
 - [medium.com - On-premises Kubernetes pitfalls](https://medium.com/makotows-blog/on-premise-kubernetes-pitfalls-2aa49e1a4c2c)
 - [metallb](https://metallb.universe.tf/)

@@ -22,68 +22,75 @@ variable "auth_url" {
     description = "endpoint of api for authentication"
 }
 
-variable "master_keypair_name" {
-    type = string
-    default = "master_keypair"
-    description = "keypair name for a master node"
+variable "image_id" {
+  type        = string
+  description = "The id of the machine image (AMI) to use for the server."
+
+  validation {
+    condition     = length(var.image_id) > 4 && substr(var.image_id, 0, 4) == "ami-"
+    error_message = "The image_id value must be a valid AMI id, starting with \"ami-\"."
+  }
 }
 
-variable "master_instance_name" {
-    type = string
-    default = "master_instance_name"
-    description = "instance name for a master node"
+
+variable "master_node" {
+    type = object({
+        keypair_name = string
+        instance_name = string
+        image_name = string
+        flavor_name = string
+        tag_name = string
+        host_name = string
+        new_user_name = string
+        new_user_password = string
+        path_to_public_key = string
+        path_to_private_key = string
+        ssh_port = string
+    })
+    default = {
+        keypair_name = "example-keypair"
+        instance_name = "example-instance"
+        image_name = "vmi-ubuntu-20.04-amd64-30gb"
+        flavor_name = "g-2gb"
+        tag_name = "example-master"
+        host_name = "master"
+        new_user_name = "example-user"
+        new_user_password = "example-password"
+        path_to_public_key = "~/.ssh/example.pub"
+        path_to_private_key = "~/.ssh/example"
+        ssh_port = "22"
+    }
+    description = "settings for master node"
 }
 
-variable "master_image_name" {
-    type = string
-    default = "master_image_name"
-    description = "image name for a master node"
-}
-
-variable "master_flavor_name" {
-    type = string
-    default = "master_flavor_name"
-    description = "flavor name for a master node"
-}
-
-variable "master_tag_name" {
-    type = string
-    default = "master_tag_name"
-    description = "tag name for a master node"
-}
-
-variable "master_host_name" {
-    type = string
-    default = "master_host_name"
-    description = "host name for a master node"
-}
-
-variable "master_new_user_name" {
-    type = string
-    default = "master_new_user_name"
-    description = "new user name for a master node"
-}
-
-variable "master_new_user_password" {
-    type = string
-    default = "master_new_user_password"
-    description = "new user password for a master node"
-}
-
-variable "master_path_to_public_key" {
-    type = string
-    default = "master_path_to_public_key"
-    description = "path to public key for a master node"
-}
-
-variable "master_path_to_private_key" {
-    type = string
-    default = "master_path_to_private_key"
-    description = "path to private key for a master node"
-}
-
-variable "master_ssh_port" {
-    type = string
-    default = "master_ssh_port"
-    description = "ssh port for a master node"
+variable "worker_nodes" {
+    type = list(object({
+        keypair_name = string
+        instance_name = string
+        image_name = string
+        flavor_name = string
+        tag_name = string
+        host_name = string
+        new_user_name = string
+        new_user_password = string
+        path_to_public_key = string
+        path_to_private_key = string
+        ssh_port = string
+    }))
+    default = [
+        {
+            keypair_name = "example-keypair"
+            instance_name = "example-instance"
+            image_name = "vmi-ubuntu-20.04-amd64-30gb"
+            flavor_name = "g-2gb"
+            tag_name = "example-worker"
+            host_name = "worker"
+            new_user_name = "example-user"
+            new_user_password = "example-password"
+            path_to_public_key = "~/.ssh/example.pub"
+            path_to_private_key = "~/.ssh/example"
+            ssh_port = "22"
+        }
+    ]
+    description = "settings for worker nodes"
 }

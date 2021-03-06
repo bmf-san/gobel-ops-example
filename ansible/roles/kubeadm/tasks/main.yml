@@ -63,9 +63,10 @@
   become_user: "{{ new_user_name }}"
   shell: |
     kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
-
-- name: Remove the taint to be able to deploy to master
-  become: yes
-  become_user: "{{ new_user_name }}"
-  shell: |
-    kubectl taint nodes --all node-role.kubernetes.io/master-
+    
+# TODO: worker用意するので
+# - name: Remove the taint to be able to deploy to master
+#   become: yes
+#   become_user: "{{ new_user_name }}"
+#   shell: |
+#     kubectl taint nodes --all node-role.kubernetes.io/master-

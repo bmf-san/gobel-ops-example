@@ -3,5 +3,5 @@ ${master_host_name} ansible_host=${master_host_ip} ansible_ssh_private_key_file=
 
 %{ for node in worker_nodes}
 [${node.host_name}]
-${node.host_name} ansible_host=${ip} ansible_ssh_private_key_file=${node.path_to_private_key}
+${node.host_name} ansible_host= ansible_ssh_private_key_file=${node.path_to_private_key}
 %{endfor ~}

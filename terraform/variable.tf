@@ -53,9 +53,21 @@ variable "master_node" {
 }
 
 variable "worker_nodes" {
-    type = "map"
-    default = {
-        "one" = {
+    type = list(object({
+        keypair_name = string
+        instance_name = string
+        image_name = string
+        flavor_name = string
+        tag_name = string
+        host_name = string
+        new_user_name = string
+        new_user_password = string
+        path_to_public_key = string
+        path_to_private_key = string
+        ssh_port = string
+    }))
+    default = [
+        {
             keypair_name = "example-keypair"
             instance_name = "example-instance"
             image_name = "vmi-ubuntu-20.04-amd64-30gb"
@@ -68,6 +80,6 @@ variable "worker_nodes" {
             path_to_private_key = "~/.ssh/example"
             ssh_port = "22"
         }
-    }
+    ]
     description = "settings for worker nodes"
 }

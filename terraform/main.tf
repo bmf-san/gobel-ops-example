@@ -19,7 +19,7 @@ module "master_instance" {
 }
 
 module "worker_instance" {
-    for_each = var.worker_nodes
+    for_each = {for i, v in var.worker_nodes:  i => v}
 
     source = "./modules/instance"
     keypair_name       = (each.value.keypair_name)
@@ -36,7 +36,6 @@ resource "local_file" "save_hosts" {
         master_host_ip=(module.master_instance.ip)
         master_path_to_private_key = (var.master_node.path_to_private_key)
         # TODO: instance_ipなんとかする
-        ip = module.worker_instance.*
         worker_nodes = var.worker_nodes
     })
     filename = "../ansible/inventories/hosts"
@@ -62,7 +61,7 @@ resource "local_file" "master_save_host_vars" {
 }
 
 resource "local_file" "worker_save_host_vars" {
-    for_each = var.worker_nodes
+    for_each = {for i, v in var.worker_nodes:  i => v}
 
     content = templatefile("./templates/host_vars/host.tpl", {
         new_user_name = (each.value.new_user_name)

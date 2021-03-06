@@ -35,8 +35,8 @@ resource "local_file" "save_hosts" {
         master_host_name=(var.master_node.host_name)
         master_host_ip=(module.master_instance.ip)
         master_path_to_private_key = (var.master_node.path_to_private_key)
-        # TODO: instance_ipなんとかする
         worker_nodes = var.worker_nodes
+        worker_ips = module.worker_instance
     })
     filename = "../ansible/inventories/hosts"
 

@@ -28,4 +28,3 @@ resource "openstack_compute_instance_v2" "gobel_instance" {
         instance_name_tag = (var.tag_name)
     }
 }
-

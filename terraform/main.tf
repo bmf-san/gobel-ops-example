@@ -18,17 +18,31 @@ module "master_instance" {
     tag_name = (var.master_node.tag_name)
 }
 
+module "worker_instance" {
+    for_each = var.worker_nodes
+
+    source = "./modules/instance"
+    keypair_name       = (each.value.keypair_name)
+    path_to_public_key = (each.value.path_to_public_key)
+    instance_name = (each.value.instance_name)
+    image_name = (each.value.image_name)
+    flavor_name = (each.value.flavor_name)
+    tag_name = (each.value.tag_name)
+}
+
 resource "local_file" "save_hosts" {
     content = templatefile("./templates/hosts.tpl", {
         master_host_name=(var.master_node.host_name)
         master_host_ip=(module.master_instance.ip)
         master_path_to_private_key = (var.master_node.path_to_private_key)
+        # TODO: instance_ipなんとかする
         worker_nodes = var.worker_nodes
     })
     filename = "../ansible/inventories/hosts"
 
     depends_on = [ 
         module.master_instance,
+        module.worker_instance,
     ]
 }
 
@@ -44,18 +58,6 @@ resource "local_file" "master_save_host_vars" {
     depends_on = [ 
         module.master_instance,
     ]
-}
-
-module "worker_instance" {
-    for_each = var.worker_nodes
-
-    source = "./modules/instance"
-    keypair_name       = (each.value.keypair_name)
-    path_to_public_key = (each.value.path_to_public_key)
-    instance_name = (each.value.instance_name)
-    image_name = (each.value.image_name)
-    flavor_name = (each.value.flavor_name)
-    tag_name = (each.value.tag_name)
 }
 
 resource "local_file" "worker_save_host_vars" {

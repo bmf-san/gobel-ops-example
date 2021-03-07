@@ -78,6 +78,7 @@ make init-provision
 // TODO: k8s deployment
 
 # Reference
+- [www.linuxsysadmins.com - Install Kubernetes Cluster with Ansible on Ubuntu in 5 minutes](https://www.linuxsysadmins.com/install-kubernetes-cluster-with-ansible/)
 - [nnstt1.hatenablog.com - 自宅 k8s クラスタのサービスに FQDN で繋がるようにした](https://nnstt1.hatenablog.com/entry/2020/11/13/070000)
 - [MetalLB入門 ― オンプレKubernetesクラスタでLoadBalancerタイプのServiceを使う](https://www.kaitoy.xyz/2020/10/31/metallb/#:~:text=MetalLB%E3%81%AF%E3%80%81%E3%81%82%E3%82%89%E3%81%8B%E3%81%98%E3%82%81%E6%8C%87%E5%AE%9A%E3%81%95%E3%82%8C,%E3%81%AE%E6%A9%9F%E5%99%A8%E3%81%AB%E5%91%A8%E7%9F%A5%E3%81%99%E3%82%8B%E3%80%82&text=MetalLB%E3%81%8CARP(IPv4)%E3%81%A8,%E3%82%92%E8%A7%A3%E6%B1%BA%E3%81%97%E3%81%A6%E3%81%8F%E3%82%8C%E3%82%8B%E3%80%82)
 - [ameblo.jp - 若手エンジニアのブログ](https://ameblo.jp/bakery-diary/entry-12614040050.html)
@@ -110,6 +111,7 @@ make init-provision
 - [github.com - kubernetes-digitalocean-terraform/kubernetes-digitalocean-terraform](https://github.com/kubernetes-digitalocean-terraform/kubernetes-digitalocean-terraform)
 - [github.com - leocavalcante/up-n-running-k8s](https://github.com/leocavalcante/up-n-running-k8s)
 - [github.com - ContainerSolutions/kubadmm-ansible](https://github.com/ContainerSolutions/kubadm-ansible)
+- [github.com - zaki-lknr/initialize-kubeadm-ansible](https://github.com/zaki-lknr/initialize-kubeadm-ansible)
 
 # License
 This project is licensed under the terms of the MIT license.

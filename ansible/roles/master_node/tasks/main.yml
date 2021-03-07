@@ -32,15 +32,14 @@
 - name: Install flannel
   shell: |
     kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
-    
-# TODO: worker用意するのでmasterにデプロイできるにしなくてもいいや
-# - name: Remove the taint to be able to deploy to master
-#   become: yes
-#   shell: |
-#     kubectl taint nodes --all node-role.kubernetes.io/master-
 
 - name: Generate a token
   shell: |
-    kubeadm token generate
+    kubeadm token create
   register: kubeadm_token
-  run_once: true
+
+- name: Generate a ca cert token
+  shell: openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt | openssl rsa -pubin -outform der 2>/dev/null | openssl dgst -sha256 -hex | sed 's/^.* //'
+  check_mode: false
+  changed_when: false
+  register: kubeadm_ca_cert

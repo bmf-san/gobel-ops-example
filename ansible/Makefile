@@ -6,4 +6,4 @@ help:
 .DEFAULT_GOAL := help
 
 init-provision: ## Run ansible-play for initilization
-	ansible-playbook ./site.yml -i ./inventories/hosts --tags init
+	ansible-playbook ./site.yml -i ./inventories/hosts --tags init -e ansible_ssh_user=root

@@ -51,7 +51,7 @@ resource "local_file" "master_save_host_vars" {
     content = templatefile("./templates/host_vars/host.tpl", {
         new_user_name = (var.master_node.new_user_name)
         new_user_password = (var.master_node.new_user_password)
-        path_to_public_key = (var.master_node.path_to_public_key)
+        public_key = file(var.master_node.path_to_public_key)
         ssh_port = (var.master_node.ssh_port)
     })
     filename = "../ansible/inventories/host_vars/${var.master_node.host_name}.yml"
@@ -67,7 +67,7 @@ resource "local_file" "worker_save_host_vars" {
     content = templatefile("./templates/host_vars/host.tpl", {
         new_user_name = (each.value.new_user_name)
         new_user_password = (each.value.new_user_password)
-        path_to_public_key = (each.value.path_to_public_key)
+        public_key = file(each.value.path_to_public_key)
         ssh_port = (each.value.ssh_port)
     })
     filename = "../ansible/inventories/host_vars/${each.value.host_name}.yml"

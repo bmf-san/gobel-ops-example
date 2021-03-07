@@ -9,7 +9,6 @@
     - iptables
     - apt
     - docker
-  user: root
   gather_facts: true
 - hosts:
     - master

@@ -5,5 +5,8 @@ help:
 
 .DEFAULT_GOAL := help
 
-init-provision: ## Run ansible-play for initilization
+init-provision: ## Run ansible-playbook for initilization
 	ansible-playbook ./site.yml -i ./inventories/hosts --tags init -e ansible_ssh_user=root
+
+provision: ## Run ansible-playbook
+	ansible-playbook ./site.yml -i ./inventories/hosts --skip-tags init --ask-become-pass

@@ -28,6 +28,7 @@ Copy example.tfvars with any name you like, and edit it like this.
 
 ex.
 ```sh
+// TODO: 後で直す
 user_name="user-name"
 password="password"
 tenant_name="tenant-name"
@@ -69,6 +70,7 @@ Execute after the instance creation is completed.
 ```sh
 cd ansible/
 make init-provision
+make provision
 ```
 
 ## Check ssh connection

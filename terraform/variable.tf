@@ -16,6 +16,14 @@ variable "tenant_name" {
     description = "tenant name"
 }
 
+variable "security_groups" {
+    type = list
+    default = [
+        "gncs-ipv4-all"
+    ]
+    description = "security groups for instance"
+}
+
 variable "auth_url" {
     type = string
     default = "https://identity.tyo2.conoha.io/v2.0"

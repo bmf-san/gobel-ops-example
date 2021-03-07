@@ -9,6 +9,7 @@
     - iptables
     - apt
     - docker
+    - kubeadm
   gather_facts: true
 - hosts:
     - master

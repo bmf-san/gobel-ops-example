@@ -109,6 +109,7 @@ make init-provision
 - [github.com - dan4ex/Terraform](https://github.com/dan4ex/Terraform)
 - [github.com - kubernetes-digitalocean-terraform/kubernetes-digitalocean-terraform](https://github.com/kubernetes-digitalocean-terraform/kubernetes-digitalocean-terraform)
 - [github.com - leocavalcante/up-n-running-k8s](https://github.com/leocavalcante/up-n-running-k8s)
+- [github.com - ContainerSolutions/kubadmm-ansible](https://github.com/ContainerSolutions/kubadm-ansible)
 
 # License
 This project is licensed under the terms of the MIT license.

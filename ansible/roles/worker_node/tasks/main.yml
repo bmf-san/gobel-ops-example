@@ -1,0 +1,7 @@
+---
+
+- name: Add worker node
+  become: yes
+  become_user: "{{ new_user_name }}"
+  shell: |
+    kubeadm join --skip-preflight-checks --token={{ hostvars[groups['master'][0]]['kubeadm_token'].stdout }} {{ hostvars[groups['master'][0]]["ansible_eth0"]["ipv4"]["address"] }}

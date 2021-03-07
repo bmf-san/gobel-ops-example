@@ -1,5 +1,7 @@
 ---
-- hosts: master
+- hosts: 
+    - master
+    - worker
   tags: ['init']
   roles:
     - users
@@ -7,6 +9,13 @@
     - iptables
     - apt
     - docker
-    - kubeadm
   user: root
   gather_facts: true
+- hosts:
+    - master
+  roles:
+    - master_node
+- hosts:
+    - worker
+  roles:
+    - worker_node

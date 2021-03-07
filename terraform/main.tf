@@ -32,8 +32,9 @@ module "worker_instance" {
 
 resource "local_file" "save_hosts" {
     content = templatefile("./templates/hosts.tpl", {
-        master_host_name=(var.master_node.host_name)
-        master_host_ip=(module.master_instance.ip)
+        master_host_name = (var.master_node.host_name)
+        master_host_ip = (module.master_instance.ip)
+        master_user = (var.master_node.new_user_name)
         master_path_to_private_key = (var.master_node.path_to_private_key)
         worker_nodes = var.worker_nodes
         worker_ips = module.worker_instance

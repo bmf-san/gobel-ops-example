@@ -4,6 +4,14 @@ variable "keypair_name" {
     description = "keypair name for a node"
 }
 
+variable "security_groups" {
+    type = list
+    default = [
+        "gncs-ipv4-all"
+    ]
+    description = "security groups for instance"
+}
+
 variable "path_to_public_key" {
     type = string
     default = "path_to_public_key"

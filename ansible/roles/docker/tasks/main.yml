@@ -1,6 +1,10 @@
 ---
+- name: Add a GPG key for docker
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+  become: yes
 
-- name: apt install packages
+- name: Install the list of packages by apt
   apt:
     name: "{{ packages }}"
     state: present
@@ -12,36 +16,41 @@
       - curl
       - gnupg-agent
       - software-properties-common
-
-- name: Add GPG key for docker
-  apt_key:
-    url: https://download.docker.com/linux/ubuntu/gpg
   become: yes
 
-- name: Add apt repository for docker
+- name: Add an apt repository
   apt_repository:
     repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
   become: yes
 
-- name: apt install docker packages
+- name: Install docker packages by apt
   apt:
     name: "{{ packages }}"
     state: present
   vars:
     packages:
-      - docker-ce=5:19.03.9~3-0~ubuntu-focal
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
   become: yes
 
-- name:  Add user to docker group
+- name: Add user to docker group
   user:
     name: "{{ ansible_env.USER }}"
     groups: docker
     append: yes
   become: yes
 
-- name: Verify that the docker service is running
+- name: Enable the docker service
   systemd:
     name: docker
     state: started
     enabled: yes
+  become: yes
+
+- name: Install docker-compose
+  get_url:
+    url: "https://github.com/docker/compose/releases/download/1.24.0/docker-compose-{{ ansible_system }}-{{ ansible_architecture }}"
+    dest: /usr/local/bin/docker-compose
+    mode: +x
   become: yes

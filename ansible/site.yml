@@ -1,21 +1,10 @@
 ---
-- hosts: 
-    - master
-    - worker
-  tags: ['init']
+- hosts:
+    - web
   roles:
-    - users
-    - ssh
-    - iptables
-    - apt
+    - ufw
+    - editor
     - docker
-    - kubeadm
-  gather_facts: true
-- hosts:
-    - master
-  roles:
-    - master_node
-- hosts:
-    - worker
-  roles:
-    - worker_node
+    - git_clone_repo
+    # - letsencrypt TODO: 一旦 アプリデプロイしてからwebrootで整備する
+  gather_facts: yes

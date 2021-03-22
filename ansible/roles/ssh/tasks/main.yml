@@ -1,20 +1,38 @@
 ---
 
+- name: change iptables for accepting new ssh connections
+  iptables:
+    chain: "INPUT"
+    protocol: "tcp"
+    destination_port: "{{ ssh_port | int }}"
+    ctstate: "NEW"
+    syn: "match"
+    jump: "ACCEPT"
+    comment: "Accept new SSH connections."
+
+- name : add a ssh user
+  user: 
+    name: "{{ ssh_user_name }}"
+    password: "{{ ssh_user_password | password_hash('sha512') }}"
+    shell: "/bin/bash"
+    state: "present"
+    groups: "sudo"
+
 - name: make a .ssh directory
   file: 
-    path: "~{{ new_user_name }}/.ssh"
+    path: "~{{ ssh_user_name }}/.ssh"
     state: "directory"
-    owner: "{{ new_user_name }}"
-    group: "{{ new_user_name }}"
+    owner: "{{ ssh_user_name }}"
+    group: "{{ ssh_user_name }}"
     mode: 0700
 
 - name: copy a public key to an authorized_keys
   copy: 
-    dest: "~{{ new_user_name }}/.ssh/authorized_keys"
+    dest: "~{{ ssh_user_name }}/.ssh/authorized_keys"
     content: "{{ public_key }}"
     mode: 0600
-    owner: "{{ new_user_name }}"
-    group: "{{ new_user_name }}"
+    owner: "{{ ssh_user_name }}"
+    group: "{{ ssh_user_name }}"
 
 - name: change sshd_config for changing a port number for ssh
   lineinfile:

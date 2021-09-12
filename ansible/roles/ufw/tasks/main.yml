@@ -1,0 +1,10 @@
+---
+
+- name: Allow ports
+  become: yes
+  ufw:
+    state: enabled
+    rule: allow
+    to_port: '{{ item }}'
+  with_items:
+    - ['22', '80', '443', '3306']

@@ -1,0 +1,4 @@
+---
+
+- name: Set vim.basic as the default editor
+  shell: "sudo update-alternatives --set editor /usr/bin/vim.basic"

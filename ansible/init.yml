@@ -1,0 +1,7 @@
+---
+- hosts: 
+    - web
+  roles:
+    - apt
+    - ssh
+  gather_facts: false

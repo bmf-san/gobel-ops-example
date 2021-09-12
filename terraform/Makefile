@@ -23,6 +23,3 @@ apply: ## Run terraform destroy.
 
 destroy: ## Run terraform destroy.
 	terraform destroy
-
-provision: ## Run ansible-playbook
-	ansible-playbook ./ansible/site.yml -i ./ansible/inventories/hosts

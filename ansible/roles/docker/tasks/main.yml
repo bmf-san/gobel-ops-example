@@ -50,7 +50,8 @@
 
 - name: Install docker-compose
   get_url:
-    url: "https://github.com/docker/compose/releases/download/1.24.0/docker-compose-{{ ansible_system }}-{{ ansible_architecture }}"
+    # TODO: use variables for docker-compose version.
+    url: "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-{{ ansible_system }}-{{ ansible_architecture }}"
     dest: /usr/local/bin/docker-compose
     mode: +x
   become: yes

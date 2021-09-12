@@ -6,5 +6,5 @@
     - editor
     - docker
     - git_clone_repo
-    # - letsencrypt TODO: 一旦 アプリデプロイしてからwebrootで整備する
+    - certbot
   gather_facts: yes

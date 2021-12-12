@@ -13,3 +13,5 @@
   vars:
     packages:
       - make
+      - jq
+      - certbot

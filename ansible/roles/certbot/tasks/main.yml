@@ -1,107 +1,20 @@
 ---
 
-- name: install the list of packages by apt
-  apt:
-    name: "{{ packages }}"
-    state: present
-    update_cache: yes
-  vars:
-    packages:
-      - certbot
+- name: pull a docker image
+  command: docker pull goacme/lego:latest
   become: yes
 
-- name: prompt for domain name
-  pause:
-    prompt: "Input the domain name for certbot"
-  register: domain_name
-
-- name: prompt for email
-  pause:
-    prompt: "Input the email for certbot"
-  register: email
-
-- name: prompt for conoha api user name
-  pause:
-    prompt: "Input the conoha api user name for certbot"
-  register: conoha_api_user_name
-
-- name: prompt for conoha api user password
-  pause:
-    prompt: "Input the conoha api user password for certbot"
-  register: conoha_api_user_password
-
-- name: prompt for conoha tenant id
-  pause:
-    prompt: "Input the conoha tenant id for certbot"
-  register: conoha_tenant_id
-
-- name: check directory.
-  stat:
-    path: /sh
-  register: is_sh_directory
-
-- name: "echo if directory already existed"
-  debug:
-    msg: "the sh directory is already existed"
-  when: is_sh_directory.stat.exists
-
-- name: "create directory if not exists"
-  file:
-    path: /sh
-    state: directory
-    mode: 0755
-    group: root
-    owner: root
-  when: is_sh_directory.stat.exists == false
+# NOTE: If CONOHA_POLLING_INTERVAL, CONOHA_PROPAGATION_TIMEOUT, CONOHA_TTL are left at their default values, they will time out. I feel that there is a problem with the DNS application specifications of conoha.
+- name: run lego for getting certificates
+  command: docker run --rm -e CONOHA_POLLING_INTERVAL=30 -e CONOHA_PROPAGATION_TIMEOUT=3600 -e CONOHA_TTL=3600 -e CONOHA_REGION={{ conoha_region }} -e CONOHA_TENANT_ID={{ conoha_tenant_id }} -e CONOHA_API_USERNAME={{ conoha_username }} -e CONOHA_API_PASSWORD={{ conoha_password }} -v /home/{{ ssh_user_name }}/lego:/lego goacme/lego --path /lego --email {{ email }} --dns conoha --domains *.{{ domain }} --domains {{ domain }} --accept-tos run
   become: yes
 
-- name: copy sh files
-  copy:
-      src: "{{ item }}"
-      dest: ./sh/
-      owner: root
-      group: root
-      mode: 755
-  with_fileglob:
-  - ./sh/*.sh
-  become: yes
-
-- name: create a conoha_id file from template
-  template:
-      src: ./sh/conoha_id
-      dest: ./sh/conoha_id
-      owner: root
-      group: root
-      mode: 644
-  become: yes
-
-  # NOTE: Can it fail if requested frequently? I have not confirmed whether it is the conoha side or the letsencrypt side.
-- name: run certbot by dry-run
-  command: certbot certonly --dry-run --manual --agree-tos --no-eff-email --manual-public-ip-logging-ok --preferred-challenges dns-01 --server https://acme-v02.api.letsencrypt.org/directory -d "{{ domain_name.user_input }}" -d "*.{{ domain_name.user_input }}" -m "{{ email.user_input }}" --manual-auth-hook ./sh/create_conoha_dns_record.sh --manual-cleanup-hook ./sh/delete_conoha_dns_record.sh
-  become: yes
-
-- name: prompt for running certbot
-  pause:
-    prompt: "Do you want to run cerbot(y/n)?:"
-  register: can_certbot 
-
-  # NOTE: Since it is not force renew, if it has already been issued and does not expire (INFO: certbot.renewal: Cert not yet due for renewal is not handled, the ansible task will not end.
-- name: run cerbot
-  command: certbot certonly --manual --agree-tos --no-eff-email --manual-public-ip-logging-ok --preferred-challenges dns-01 --server https://acme-v02.api.letsencrypt.org/directory -d "{{ domain_name.user_input }}" -d "*.{{ domain_name.user_input }}" -m "{{ email.user_input }}" --manual-auth-hook ./sh/create_conoha_dns_record.sh --manual-cleanup-hook ./sh/delete_conoha_dns_record.sh
-  become: yes
-  when: can_certbot.user_input == "y"
-
-- name: run cerbot renew by dry-run
-  command: certbot renew --force-renewal --dry-run 
-  become: yes
-  when: can_certbot.user_input == "y"
-
-- name: Set cron
+- name: set cron for renewing certificates
   become: yes
   cron:
     name: certbot renew
     minute: "0"
     hour: "0"
     day: "1"
-    job: "cerbot renew"
+    job: docker run --rm -e CONOHA_POLLING_INTERVAL=30 -e CONOHA_PROPAGATION_TIMEOUT=3600 -e CONOHA_TTL=3600 -e CONOHA_REGION={{ conoha_region }} -e CONOHA_TENANT_ID={{ conoha_tenant_id }} -e CONOHA_API_USERNAME={{ conoha_username }} -e CONOHA_API_PASSWORD={{ conoha_password }} -v /home/{{ ssh_user_name }}/lego:/lego goacme/lego --path /lego --email {{ email }} --dns conoha --domains *.{{ domain }} --domains {{ domain }} --accept-tos renew
     state: present

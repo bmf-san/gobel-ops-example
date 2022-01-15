@@ -1,3 +1,0 @@
-CONOHA_API_USER_NAME={{ conoha_api_user_name.user_input }}
-CONOHA_API_USER_PASSWORD={{ conoha_api_user_password.user_input }}
-CONOHA_TENANT_ID={{ conoha_tenant_id.user_input }}

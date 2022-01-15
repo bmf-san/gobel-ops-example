@@ -5,22 +5,17 @@
 # When it is re-executed, it behaves the same as the first execution.
 # It is better to skip the task if necessary, but basically it is assumed that it will be executed only once, so the response will be postponed once.
 
-- name: prompt for ssh key name
-  pause:
-    prompt: "Input the name of ssh key for accessing github"
-  register: key_name
-
 - name: check if ssh key exists
   stat:
-    path: "~/.ssh/{{ key_name.user_input }}"
+    path: "~/.ssh/{{ ssh_key_name_for_accessing_github }}"
   register: is_ssh_key
 
 - name: generate ssh key for accessing github
-  command: "ssh-keygen -t rsa -f ~/.ssh/{{ key_name.user_input }} -N ''"
+  command: "ssh-keygen -t rsa -f ~/.ssh/{{ ssh_key_name_for_accessing_github }} -N ''"
   when: not is_ssh_key.stat.exists
 
 - name: get key content
-  command: "cat ~/.ssh/{{ key_name.user_input }}.pub"
+  command: "cat ~/.ssh/{{ ssh_key_name_for_accessing_github }}.pub"
   register: key_content
 
 - name: check if known_hosts exist
@@ -53,44 +48,35 @@
     with_items: '{{ keyscan.stdout_lines }}'
   when: is_known_hosts_content.rc == 1
 
-- name: prompt for github access token
-  pause:
-    prompt: "Input the github access token"
-  register: github_access_token
-
 - name: add ssh public key to github account
   uri:
     url: https://api.github.com/user/keys
     validate_certs: no
     method: POST
     body:
-      title: "{{ key_name.user_input }}"
+      title: "{{ ssh_key_name_for_accessing_github }}"
       key: "{{ key_content.stdout }}"
     body_format: json
     headers:
       Content-Type: "application/json"
-      Authorization: "token {{ github_access_token.user_input }}"
+      Authorization: "token {{ github_access_token }}"
   register: add_ssh_public_key_log
   failed_when: add_ssh_public_key_log.content.find('key is already in use') == 0
 
-- name: prompt for name of application directory
-  pause:
-    prompt: "Input the name of application directory"
-  register: application_dir_name
-
-- name: Create a directory if it doesn't exist
+- name: create a directory if it doesn't exist
   file:
-    path: "/home/{{ ssh_user_name }}/{{ application_dir_name.user_input }}"
+    path: "/home/{{ ssh_user_name }}/{{ application_directory_name }}"
     state: directory
     mode: 0755
     owner: "{{ ssh_user_name }}"
     group: "{{ ssh_user_name }}"
   become: yes
 
-- name: prompt for name of git repository to clone
-  pause:
-    prompt: "Input the name of git repository to clone. ex. bmf-san/foobar"
-  register: git_repo_name
+- name: check if application directory exist
+  stat:
+    path: "/home/{{ ssh_user_name }}/{{ application_directory_name }}/"
+  register: is_application_directory
 
 - name: clone a repository
-  shell: GIT_SSH_COMMAND="ssh -i ~/.ssh/{{ key_name.user_input }} -v -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" git clone ssh://git@github.com/{{ git_repo_name.user_input }}.git /home/{{ ssh_user_name }}/{{ application_dir_name.user_input }}/
+  shell: GIT_SSH_COMMAND="ssh -i ~/.ssh/{{ ssh_key_name_for_accessing_github }} -v -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" git clone ssh://git@github.com/{{ git_repository_name_for_cloning }}.git /home/{{ ssh_user_name }}/{{ application_directory_name }}/
+  when: not is_application_directory.stat.exists

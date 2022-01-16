@@ -1,3 +1,3 @@
 [web]
-${instance_host_name} ansible_host=${instance_host_ip} ansible_ssh_user=${instance_user}
-ansible_ssh_private_key_file=${instance_path_to_private_key}
+${host_name} ansible_host=${host_ip} ansible_ssh_user=${ssh_user_name}
+ansible_ssh_private_key_file=${path_to_private_key}

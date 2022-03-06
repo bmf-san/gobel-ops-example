@@ -18,18 +18,16 @@ See [gobel-example](https://github.com/bmf-san/gobel-example) for deploying the 
 
 # Get started
 ## Setup infrastructure by terraform
-// TODO: write
 Create a terraform.tfvars
 
-terraform
 ```sh
+cd terraform/
 make apply
 ```
 
 ## Provisioning by ansible
-// TODO: write
-ansible
 ```sh
+cd ansible/
 make init-provision
 ```
 
@@ -38,9 +36,10 @@ make provision
 ```
 
 ## Deploy
-// TODO:
 ```sh
-cp /deploy/.env.example /deploy/.env
+cd /deploy
+cp .env.example .env
+make deploy
 ```
 
 # License

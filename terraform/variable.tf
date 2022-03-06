@@ -1,11 +1,11 @@
 variable "conoha" {
   type = object({
-    user_name                 = string
-    password                  = string
-    tenant_name               = string
-    tenant_id                 = string
-    identity_service_endpoint = string
-    region                    = string
+    user_name                 = string # conoha api user name
+    password                  = string # conoha api password
+    tenant_name               = string # conoha tenant name
+    tenant_id                 = string # conoha tenant id
+    identity_service_endpoint = string # conoha identity service endpoint
+    region                    = string # conoha region name
   })
   default = {
     user_name                 = "user1234"
@@ -20,12 +20,12 @@ variable "conoha" {
 
 variable "instance" {
   type = object({
-    security_groups = list(any)
-    key_pair_name   = string
-    instance_name   = string
-    image_name      = string
-    flavor_name     = string
-    tag_name        = string
+    security_groups = list(any) # cf. https://www.conoha.jp/docs/neutron-get_secgroups_list.php
+    key_pair_name   = string # ssh key pair name for instance
+    instance_name   = string # instance name
+    image_name      = string # cf. https://www.conoha.jp/docs/image-get_images_list.php
+    flavor_name     = string # cf. https://www.conoha.jp/docs/compute-get_flavors_list.php
+    tag_name        = string # name tag for instance
   })
   default = {
     security_groups = [
@@ -42,18 +42,18 @@ variable "instance" {
 
 variable "host" {
   type = object({
-    host_name                         = string
-    ssh_user_name                     = string
-    ssh_user_password                 = string
-    path_to_public_key                = string
-    path_to_private_key               = string
-    ssh_port                          = string
-    domain                            = string
-    email                             = string
-    ssh_key_name_for_accessing_github = string
-    application_directory_name        = string
-    git_repository_name_for_cloning   = string
-    github_access_token               = string
+    host_name                         = string # host name
+    ssh_user_name                     = string # ssh user name for ssh connection from local to host
+    ssh_user_password                 = string # ssh user password for ssh connection from local to host
+    path_to_public_key                = string # path to public key in local
+    path_to_private_key               = string # path to private key in local
+    ssh_port                          = string # ssh port opened by host for using ssh connection.
+    domain                            = string # domain name for host
+    email                             = string # email for using ssl certifications.
+    ssh_key_name_for_accessing_github = string # newly generated ssh key name to access githuub
+    application_directory_name        = string # directory for placing the application 
+    git_repository_name_for_cloning   = string # repository name to clone from github 
+    github_access_token               = string # github personal access token with repo and admin: public_key scope
   })
   default = {
     host_name                         = "example-instance"

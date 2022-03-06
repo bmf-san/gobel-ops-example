@@ -1,14 +1,14 @@
 ---
 - name: Add a GPG key for docker
-  apt_key:
+  ansible.builtin.apt_key:
     url: https://download.docker.com/linux/ubuntu/gpg
-  become: yes
+  become: true
 
 - name: Install the list of packages by apt
-  apt:
+  ansible.builtin.apt:
     name: "{{ packages }}"
     state: present
-    update_cache: yes
+    update_cache: true
   vars:
     packages:
       - apt-transport-https
@@ -16,15 +16,15 @@
       - curl
       - gnupg-agent
       - software-properties-common
-  become: yes
+  become: true
 
 - name: Add an apt repository
-  apt_repository:
+  ansible.builtin.apt_repository:
     repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
-  become: yes
+  become: true
 
 - name: Install docker packages by apt
-  apt:
+  ansible.builtin.apt:
     name: "{{ packages }}"
     state: present
   vars:
@@ -32,26 +32,26 @@
       - docker-ce
       - docker-ce-cli
       - containerd.io
-  become: yes
+  become: true
 
 - name: Add user to docker group
-  user:
+  ansible.builtin.user:
     name: "{{ ansible_env.USER }}"
     groups: docker
-    append: yes
-  become: yes
+    append: true
+  become: true
 
 - name: Enable the docker service
-  systemd:
+  ansible.builtin.systemd:
     name: docker
     state: started
-    enabled: yes
-  become: yes
+    enabled: true
+  become: true
 
 - name: Install docker-compose
-  get_url:
+  ansible.builtin.get_url:
     # TODO: use variables for docker-compose version.
     url: "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-{{ ansible_system }}-{{ ansible_architecture }}"
     dest: /usr/local/bin/docker-compose
     mode: +x
-  become: yes
+  become: true

@@ -26,4 +26,5 @@
     owner: "{{ ssh_user_name }}"
     group: "{{ ssh_user_name }}"
     mode: "775"
+    recurse: true
   become: true

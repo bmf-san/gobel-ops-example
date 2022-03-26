@@ -21,11 +21,11 @@ variable "conoha" {
 variable "instance" {
   type = object({
     security_groups = list(any) # cf. https://www.conoha.jp/docs/neutron-get_secgroups_list.php
-    key_pair_name   = string # ssh key pair name for instance
-    instance_name   = string # instance name
-    image_name      = string # cf. https://www.conoha.jp/docs/image-get_images_list.php
-    flavor_name     = string # cf. https://www.conoha.jp/docs/compute-get_flavors_list.php
-    tag_name        = string # name tag for instance
+    key_pair_name   = string    # ssh key pair name for instance
+    instance_name   = string    # instance name
+    image_name      = string    # cf. https://www.conoha.jp/docs/image-get_images_list.php
+    flavor_name     = string    # cf. https://www.conoha.jp/docs/compute-get_flavors_list.php
+    tag_name        = string    # name tag for instance
   })
   default = {
     security_groups = [
@@ -54,6 +54,7 @@ variable "host" {
     application_directory_name        = string # directory for placing the application 
     git_repository_name_for_cloning   = string # repository name to clone from github 
     github_access_token               = string # github personal access token with repo and admin: public_key scope
+    path_to_certificates_directory    = string # path to certificates directory
   })
   default = {
     host_name                         = "example-instance"
@@ -68,6 +69,7 @@ variable "host" {
     application_directory_name        = "example-app"
     git_repository_name_for_cloning   = "bmf-san/gobel-example"
     github_access_token               = "token1234"
+    path_to_certificates_directory    = "/path/to/certificates"
   }
   description = "settings for a instance"
 }

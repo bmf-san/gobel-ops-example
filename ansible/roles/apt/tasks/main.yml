@@ -1,15 +1,15 @@
 ---
 
 - name: apt update
-  apt:
-    update_cache: yes
-  become: yes
+  ansible.builtin.apt:
+    update_cache: true
+  become: true
 
 - name: install the list of packages by apt
-  apt:
+  ansible.builtin.apt:
     name: "{{ packages }}"
     state: present
-    update_cache: yes
+    update_cache: true
   vars:
     packages:
       - make

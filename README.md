@@ -5,10 +5,6 @@ This is an example infrastructure configuration management for running [gobel-ex
 
 This sample code assumes the use of a Japanese VPS called conoha.
 
-I'm assuming deploying an application using docker-context.
-
-See [gobel-example](https://github.com/bmf-san/gobel-example) for deploying the application.
-
 # gobel
 - [gobel-api](https://github.com/bmf-san/gobel-api)
 - [gobel-client-example-example](https://github.com/bmf-san/gobel-client-example-example)
@@ -17,8 +13,17 @@ See [gobel-example](https://github.com/bmf-san/gobel-example) for deploying the 
 - [gobel-ops-example](https://github.com/bmf-san/gobel-ops-example)
 
 # Get started
+Assuming execution from the local environment.
+
+Need to install the following tools:
+- terraform
+- ansible
+- ansible-lint
+
+
 ## Setup infrastructure by terraform
-Create a terraform.tfvars
+Create a terraform.tfvars.
+See variables.tf for the variables you need to set.
 
 ```sh
 cd terraform/
@@ -26,19 +31,26 @@ make apply
 ```
 
 ## Provisioning by ansible
-```sh
-cd ansible/
-make init-provision
+To perform a DNS-01 challenge with letsencrypt with certificate acquisition, you need to set dns before running provision.
+
+Please set the A record to the domain.
+
+It is OK if the A record is returned by executing the dig command.
+
+```
+dig DOMAIN_NAME
 ```
 
 ```sh
+cd ansible/
+make init-provision
 make provision
 ```
 
 ## Deploy
 ```sh
 cd /deploy
-cp .env.example .env
+cp .env.example .env # see a host file in /ansible/inventories/host_vars and edit an .env.
 make deploy
 ```
 

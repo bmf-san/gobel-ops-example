@@ -6,6 +6,14 @@ help:
 .DEFAULT_GOAL := help
 ansible_host=$(shell grep "ansible_host" ./inventories/hosts | awk '{print $$2}' | sed 's/ansible_host=//g')
 
+.PHONY: check-syntax
+check-syntax: ## Run syntax check
+	ansible-playbook ./init.yml -i ./inventories/hosts -e "ansible_host=$(ansible_host) ansible_ssh_user=root" --syntax-check
+	ansible-playbook ./site.yml -i ./inventories/hosts --ask-become-pass --syntax-check
+
+lint: ## Run ansible-lint
+	ansible-lint ./*.yml
+
 .PHONY: init-provision
 init-provision: ## Run ansible-playbook for initilization
 	ansible-playbook ./init.yml -i ./inventories/hosts -e "ansible_host=$(ansible_host) ansible_ssh_user=root"

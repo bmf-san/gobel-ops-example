@@ -1,17 +1,17 @@
 ---
 
 - name: change iptables for accepting new ssh connections
-  iptables:
+  ansible.builtin.iptables:
     chain: "INPUT"
     protocol: "tcp"
-    destination_port: "{{ ssh_port | int }}"
+    destination_port: "{{ ssh_port }}"
     ctstate: "NEW"
     syn: "match"
     jump: "ACCEPT"
     comment: "Accept new SSH connections."
 
-- name : add a ssh user
-  user: 
+- name: add a ssh user
+  ansible.builtin.user:
     name: "{{ ssh_user_name }}"
     password: "{{ ssh_user_password | password_hash('sha512') }}"
     shell: "/bin/bash"
@@ -19,7 +19,7 @@
     groups: "sudo"
 
 - name: make a .ssh directory
-  file: 
+  ansible.builtin.file:
     path: "~{{ ssh_user_name }}/.ssh"
     state: "directory"
     owner: "{{ ssh_user_name }}"
@@ -27,7 +27,7 @@
     mode: 0700
 
 - name: copy a public key to an authorized_keys
-  copy: 
+  ansible.builtin.copy:
     dest: "~{{ ssh_user_name }}/.ssh/authorized_keys"
     content: "{{ public_key }}"
     mode: 0600
@@ -35,14 +35,14 @@
     group: "{{ ssh_user_name }}"
 
 - name: change sshd_config for changing a port number for ssh
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: "/etc/ssh/sshd_config"
     regexp: "^Port"
     insertafter: "^#Port"
     line: "Port {{ ssh_port }}"
 
 - name: change sshd_config for disabling password authentication
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: "/etc/ssh/sshd_config"
     regexp: "^PasswordAuthentication"
     insertafter: "^#PasswordAuthentication"
@@ -51,8 +51,8 @@
     - restart sshd
 
 - name: change sshd_config for disabling permit root login
-  lineinfile:
-    dest: "/etc/ssh/sshd_config" 
+  ansible.builtin.lineinfile:
+    dest: "/etc/ssh/sshd_config"
     regexp: "^PermitRootLogin"
     line: "PermitRootLogin no"
     state: "present"

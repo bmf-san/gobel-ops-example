@@ -7,4 +7,4 @@
     - docker
     - git_clone_repo
     - certbot
-  gather_facts: yes
+  gather_facts: true

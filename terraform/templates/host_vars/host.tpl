@@ -8,6 +8,7 @@ ssh_key_name_for_accessing_github: ${ssh_key_name_for_accessing_github}
 application_directory_name: ${application_directory_name}
 git_repository_name_for_cloning: ${git_repository_name_for_cloning}
 github_access_token: ${github_access_token}
+path_to_certificates_directory: ${path_to_certificates_directory}
 conoha_username: ${conoha_username}
 conoha_password: ${conoha_password}
 conoha_tenant_id: ${conoha_tenant_id}

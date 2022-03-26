@@ -39,6 +39,7 @@ resource "local_file" "instance_save_host_vars" {
     application_directory_name        = (var.host.application_directory_name)
     git_repository_name_for_cloning   = (var.host.git_repository_name_for_cloning)
     github_access_token               = (var.host.github_access_token)
+    path_to_certificates_directory    = (var.host.path_to_certificates_directory)
     conoha_username                   = (var.conoha.user_name)
     conoha_password                   = (var.conoha.password)
     conoha_tenant_id                  = (var.conoha.tenant_id)

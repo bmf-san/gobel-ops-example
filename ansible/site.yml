@@ -7,4 +7,5 @@
     - docker
     - git_clone_repo
     - certbot
+    - cron
   gather_facts: true

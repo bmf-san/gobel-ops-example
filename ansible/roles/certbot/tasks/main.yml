@@ -7,18 +7,8 @@
 # NOTE: If CONOHA_POLLING_INTERVAL, CONOHA_PROPAGATION_TIMEOUT, CONOHA_TTL are left at their default values, they will time out.
 # I feel that there is a problem with the DNS application specifications of conoha.
 - name: run lego for getting certificates
-  ansible.builtin.command: docker run --rm -e CONOHA_POLLING_INTERVAL=30 -e CONOHA_PROPAGATION_TIMEOUT=3600 -e CONOHA_TTL=3600 -e CONOHA_REGION={{ conoha_region }} -e CONOHA_TENANT_ID={{ conoha_tenant_id }} -e CONOHA_API_USERNAME={{ conoha_username }} -e CONOHA_API_PASSWORD={{ conoha_password }} -v {{ path_to_certificates_directory }}:/lego goacme/lego --path /lego --email {{ email }} --dns conoha --domains *.{{ domain }} --domains {{ domain }} --accept-tos run
+  ansible.builtin.command: docker run --rm -e CONOHA_POLLING_INTERVAL=30 -e CONOHA_PROPAGATION_TIMEOUT=3600 -e CONOHA_TTL=3600 -e CONOHA_REGION={{ conoha_region }} -e CONOHA_TENANT_ID={{ conoha_tenant_id }} -e CONOHA_API_USERNAME={{ conoha_username }} -e CONOHA_API_PASSWORD={{ conoha_password }} -v {{ path_to_certificates_directory }}:/cetificates goacme/lego --path /certificates --email {{ email }} --dns conoha --domains *.{{ domain }} --domains {{ domain }} --accept-tos run
   become: true
-
-- name: set cron for renewing certificates
-  become: true
-  ansible.builtin.cron:
-    name: certbot renew
-    minute: "0"
-    hour: "0"
-    day: "1"
-    job: docker run --rm -e CONOHA_POLLING_INTERVAL=30 -e CONOHA_PROPAGATION_TIMEOUT=3600 -e CONOHA_TTL=3600 -e CONOHA_REGION={{ conoha_region }} -e CONOHA_TENANT_ID={{ conoha_tenant_id }} -e CONOHA_API_USERNAME={{ conoha_username }} -e CONOHA_API_PASSWORD={{ conoha_password }} -v {{ path_to_certificates_directory }}:/lego goacme/lego --path /lego --email {{ email }} --dns conoha --domains *.{{ domain }} --domains {{ domain }} --accept-tos renew
-    state: present
 
 - name: change directory permission
   ansible.builtin.file:

@@ -9,12 +9,5 @@ include .env
 
 .PHONY: deploy
 deploy: ## Deploy applications
-	rsync -avz -e 'ssh -p ${SSH_PORT} -i ${PATH_TO_LOCAL_PRIVATE_KEY}' ${PATH_TO_LOCAL_APP}/.env.prd ${SSH_USER}@${HOST_IP}:${PATH_TO_HOST_APP}/.env
-	ssh ${SSH_USER}@${HOST_IP} -i ${PATH_TO_LOCAL_PRIVATE_KEY} " \
-	cd ${PATH_TO_HOST_APP} && \
-	export GIT_SSH_COMMAND='ssh -i ${PATH_TO_HOST_PRIVATE_KEY} -v -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null' && \
-	git pull origin master && \
-	make docker-create-network && \
-	make docker-compose-build && \
-	make docker-compose-up \
-	"
+	rsync -avz -e "ssh -p ${SSH_PORT} -i ${PATH_TO_LOCAL_PRIVATE_KEY}" ${PATH_TO_LOCAL_APP}/.env.prd ${SSH_USER}@${HOST_IP}:${PATH_TO_HOST_APP}/.env
+	ssh ${SSH_USER}@${HOST_IP} -i ${PATH_TO_LOCAL_PRIVATE_KEY} "cd ${PATH_TO_HOST_APP} && git pull origin master && make docker-compose-build && make docker-compose-up"

@@ -6,6 +6,7 @@ This is an example infrastructure configuration management for running [gobel-ex
 This sample code assumes the use of a Japanese VPS called conoha.
 
 # gobel
+- [bmf-tech-client](https://github.com/bmf-san/bmf-tech-client)
 - [gobel-api](https://github.com/bmf-san/gobel-api)
 - [gobel-client-example](https://github.com/bmf-san/gobel-client-example)
 - [gobel-admin-client-example](https://github.com/bmf-san/gobel-admin-client-example)
